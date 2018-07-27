@@ -37,6 +37,7 @@ public class BinarySearchTree<T extends Comparable> {
         if (this.root == null) {
             return null;
         }
+        // think of compareTo is like key - target
         if (this.root.key.compareTo(target) == 0) {
             result =  this.root;
         } else if (this.root.key.compareTo(target) < 0) {
@@ -46,6 +47,14 @@ public class BinarySearchTree<T extends Comparable> {
         }
         return result;
     }
+
+//    public Node<T> delete(T target) {
+//        if (this.root == null) {
+//            return null;
+//        }
+//
+//
+//    }
 
 
     public StringBuilder treeToDot() {
