@@ -16,31 +16,6 @@ public class BinarySearchTree<T extends Comparable> {
      */
     private Node root;
 
-    // Assume that if there is an instance of Node, its key must not be empty
-    private class Node<T extends Comparable> {
-        private T key;
-        private BinarySearchTree<T> left;
-        private BinarySearchTree<T> right;
-
-        public Node(T key) {
-            this.key = key;
-            this.left = new BinarySearchTree<>();
-            this.right = new BinarySearchTree<>();
-        }
-
-        public T getKey() {
-            return key;
-        }
-
-        public BinarySearchTree<T> getLeft() {
-            return left;
-        }
-
-        public BinarySearchTree<T> getRight() {
-            return right;
-        }
-    }
-
     public BinarySearchTree() {
         this.root = null;
     }
@@ -50,11 +25,26 @@ public class BinarySearchTree<T extends Comparable> {
         if (this.root == null) {
             this.root = new Node(key);
             // if root is not empty and it is bigger than the key
-        } else if (this.root.key.compareTo(key) > 0) {
-            this.root.left.add(key);
-        } else {
+        } else if (this.root.key.compareTo(key) <= 0) {
             this.root.right.add(key);
+        } else {
+            this.root.left.add(key);
         }
+    }
+
+    public Node<T> search(T target) {
+        Node<T> result = null;
+        if (this.root == null) {
+            return null;
+        }
+        if (this.root.key.compareTo(target) == 0) {
+            result =  this.root;
+        } else if (this.root.key.compareTo(target) < 0) {
+            result = this.root.right.search(target);
+        } else {
+            result = this.root.left.search(target);
+        }
+        return result;
     }
 
 
@@ -84,7 +74,7 @@ public class BinarySearchTree<T extends Comparable> {
 
         if (tree.root.right.root != null) {
             treeOutputDotAux(tree.root.right, sb);
-            sb.append(String.format("\"%s\":f1 -> \"%s\":f0;\n", tree.root.key, tree.root.right.root.key));
+            sb.append(String.format("\"%s\":f2 -> \"%s\":f0;\n", tree.root.key, tree.root.right.root.key));
         }
     }
 
