@@ -5,8 +5,8 @@ import static SortingsAndOrderStatistics.Quick.randomizedPartiion;
 public class RandomizedSelect {
     /**returns the ith smallest element of the array A[p..r]
      * @param A the array element
-     * @param p the left boundary of range
-     * @param r the right boundary of range
+     * @param p the leftSubTree boundary of range
+     * @param r the rightSubTree boundary of range
      * @param i the ith element in the range of the array
      * @return the ith smallest element in the array between range*/
     public static int select(Integer[] A, int p, int r, int i) {

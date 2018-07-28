@@ -29,11 +29,11 @@ public class Quick {
 
         int p = A[l];
         while (true) {
-            // choose an entry at the left that is >= than p
+            // choose an entry at the leftSubTree that is >= than p
             while (A[++i] < p) {
                 if (i == r) break;
             }
-            // choose an entry from right that is <= than p
+            // choose an entry from rightSubTree that is <= than p
             while (p < A[--j]) {
                 if (j == l) break;
             }

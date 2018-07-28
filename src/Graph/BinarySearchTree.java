@@ -1,5 +1,6 @@
 package Graph;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -7,46 +8,133 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class BinarySearchTree<T extends Comparable> {
+public class BinarySearchTree<T extends Comparable<T>> {
     /**
-     * basically tree is a pointer to node which is a recursive data structure
+     * basically tree holds a pointer to node which is a recursive data structure
      * think of "tree.root" is like "tree->"
      */
-    private Node<T> root;
+    private TreeNode<T> root;
+
+    private class TreeNode<T extends Comparable<T>> {
+        private T key;
+        private TreeNode<T> left;
+        private TreeNode<T> right;
+
+        private TreeNode(T key) {
+            this.key = key;
+            left = null;
+            right = null;
+        }
+    }
+
 
     public BinarySearchTree() {
         this.root = null;
     }
 
     public void add(T key) {
-        // if root is empty, create new node
-        if (this.root == null) {
-            this.root = new Node<T>(key);
-            // if root is not empty and it is bigger than the key
-        } else if (this.root.key.compareTo(key) <= 0) {
-            this.root.right.add(key);
+        if (root == null) {
+            root = new TreeNode<>(key);
         } else {
-            this.root.left.add(key);
+            TreeNode<T> current, parent;
+            current = parent = root;
+            while (current != null) {
+                if (current.key.compareTo(key) > 0) {
+                    parent = current;
+                    current = current.left;
+                } else if (current.key.compareTo(key) < 0) {
+                    parent = current;
+                    current = current.right;
+                }
+            }
+
+            if (parent.key.compareTo(key) > 0) {
+                parent.left = new TreeNode<>(key);
+            } else {
+                parent.right = new TreeNode<>(key);
+            }
         }
     }
 
-    public Node<T> search(T target) {
-        Node<T> result = null;
-        if (this.root == null) {
+
+
+    public TreeNode search(T target) {
+        return searchAux(root, target);
+    }
+
+    private TreeNode searchAux(TreeNode<T> node, T target) {
+        if (node == null) {
             return null;
-        }
-        // think of compareTo is like key - target
-        if (this.root.key.compareTo(target) == 0) {
-            result =  this.root;
-        } else if (this.root.key.compareTo(target) < 0) {
-            result = this.root.right.search(target);
+        } else if (node.key.compareTo(target) == 0) {
+            return node;
+        } else if (node.key.compareTo(target) > 0) {
+            return searchAux(node.left, target);
         } else {
-            result = this.root.left.search(target);
+            return searchAux(node.right, target);
         }
-        return result;
     }
 
 
+    public boolean delete(T target) {
+        TreeNode<T> parent = null;
+        TreeNode<T> current = root;
+
+        while (current != null) {
+            if (target.compareTo(current.key) < 0) {
+                parent = current;
+                current = current.left;
+            } else if (target.compareTo(current.key) > 0) {
+                parent = current;
+                current = current.right;
+            } else {
+                break; // element is in the tree pointed by current
+            }
+        }
+        if (current == null) {
+            // element is not in the tree
+            return false;
+        }
+
+        if (current.left == null && current.right == null) {
+            if (target.compareTo(parent.key) < 0) {
+                parent.left = null;
+            } else {
+                parent.right = null;
+            }
+        } else if (current.left == null && current.right != null) {
+            if (target.compareTo(parent.key) < 0) {
+                parent.left = current.right;
+            } else {
+                parent.right = current.right;
+            }
+        } else if (current.right == null && current.left != null) {
+            if (target.compareTo(parent.key) < 0) {
+                parent.left = current.left;
+            } else {
+                parent.left = current.left;
+            }
+        } else {
+            // find the current's leftMost in the right subtree
+            TreeNode<T> parentOfLeftMost = current;
+            TreeNode<T> leftMost = current.right;
+            while (leftMost.left != null) {
+                parentOfLeftMost = leftMost;
+                leftMost = leftMost.left;
+            }
+
+            // replace current with leftMost
+            current.key = leftMost.key;
+
+            if (parentOfLeftMost.left == leftMost) {
+                parentOfLeftMost.left = leftMost.right;
+            } else {
+                // special case where: parentOfLeftMost == current
+                parentOfLeftMost.right = leftMost.right;
+            }
+        }
+
+        return true;
+    }
 
 
 
@@ -56,27 +144,26 @@ public class BinarySearchTree<T extends Comparable> {
         sb.append("digraph ");
         sb.append("binary_search_tree {\n");
         sb.append("node [shape = Mrecord, penwidth = 2];\n");
-        treeOutputDotAux(this, sb);
+        if (this.root != null) {
+            treeOutputDotAux(root, sb);
+        }
         sb.append("}\n");
-
         return sb;
     }
 
     // inorder traversal
-    private void treeOutputDotAux(BinarySearchTree tree, StringBuilder sb) {
-
-        if (tree.root.key != null) {
-            sb.append(String.format("\"%s\"[label=\"{<f0>%s|{<f1>|<f2>}}\"];\n", tree.root.key, tree.root.key));
+    private void treeOutputDotAux(TreeNode<T> node, StringBuilder sb) {
+        if (node.key != null) {
+            sb.append(String.format("\"%s\"[label=\"{<f0>%s|{<f1>|<f2>}}\"];\n", node.key, node.key));
         }
+        if (node.left != null) {
+            treeOutputDotAux(node.left, sb);
+            sb.append(String.format("\"%s\":f1 -> \"%s\":f0;\n", node.key, node.left.key));
 
-        if (tree.root.left.root != null) {
-            treeOutputDotAux(tree.root.left, sb);
-            sb.append(String.format("\"%s\":f1 -> \"%s\":f0;\n", tree.root.key, tree.root.left.root.key));
         }
-
-        if (tree.root.right.root != null) {
-            treeOutputDotAux(tree.root.right, sb);
-            sb.append(String.format("\"%s\":f2 -> \"%s\":f0;\n", tree.root.key, tree.root.right.root.key));
+        if (node.right != null) {
+            treeOutputDotAux(node.right, sb);
+            sb.append(String.format("\"%s\":f2 -> \"%s\":f0;\n", node.key, node.right.key));
         }
     }
 
@@ -97,10 +184,10 @@ public class BinarySearchTree<T extends Comparable> {
             cmd.add("-Tpng");
             cmd.add(dotFilePath.toAbsolutePath().toString());
             cmd.add("-o");
-            cmd.add(dotFilePath.getParent().toAbsolutePath().toString()+"/binary_search_tree.png");
+            cmd.add(dotFilePath.getParent().toAbsolutePath().toString() + "/binary_search_tree.png");
 
             ProcessBuilder generateGraph = new ProcessBuilder(cmd);
-            Process process =  generateGraph.start();
+            Process process = generateGraph.start();
 
             int errCode = process.waitFor();
             System.out.println("Generate graph " + (errCode == 0 ? "Succeed" : "Failed"));
