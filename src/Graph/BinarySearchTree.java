@@ -1,7 +1,5 @@
 package Graph;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,7 +12,7 @@ public class BinarySearchTree<T extends Comparable> {
      * basically tree is a pointer to node which is a recursive data structure
      * think of "tree.root" is like "tree->"
      */
-    private Node root;
+    private Node<T> root;
 
     public BinarySearchTree() {
         this.root = null;
@@ -23,7 +21,7 @@ public class BinarySearchTree<T extends Comparable> {
     public void add(T key) {
         // if root is empty, create new node
         if (this.root == null) {
-            this.root = new Node(key);
+            this.root = new Node<T>(key);
             // if root is not empty and it is bigger than the key
         } else if (this.root.key.compareTo(key) <= 0) {
             this.root.right.add(key);
@@ -48,13 +46,8 @@ public class BinarySearchTree<T extends Comparable> {
         return result;
     }
 
-//    public Node<T> delete(T target) {
-//        if (this.root == null) {
-//            return null;
-//        }
-//
-//
-//    }
+
+
 
 
     public StringBuilder treeToDot() {
