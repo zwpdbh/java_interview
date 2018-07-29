@@ -1,4 +1,4 @@
-package ImageProcessing;
+package ImageProcessing.JavaVanilla;
 
 import java.applet.Applet;
 import java.awt.*;

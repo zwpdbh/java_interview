@@ -1,5 +1,6 @@
 package ImageProcessing.OpenCV;
 
+import Common.MyLib;
 import javafx.application.Application;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Group;
@@ -62,22 +63,9 @@ public class DisplayingImagesJavaFX extends Application {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
         String imgFile = "/Users/zw/code/Java_Projects/Java_Interview/src/resources/test_img.jpg";
-        Mat image = Imgcodecs.imread(imgFile);
+        Mat imageMat = Imgcodecs.imread(imgFile);
 
-        // Encoding the image
-        MatOfByte matOfByte = new MatOfByte();
-        Imgcodecs.imencode(".jpg", image, matOfByte);
-
-        // Storing the encoded mat in a byte array
-        byte byteArray[] = matOfByte.toArray();
-
-        // Displaying the image
-        InputStream inputStream = new ByteArrayInputStream(byteArray);
-        BufferedImage bufferedImage = ImageIO.read(inputStream);
-
-        System.out.println("Image Loaded");
-
-        return SwingFXUtils.toFXImage(bufferedImage, null);
+        return MyLib.fromMatToWritableImage(imageMat);
     }
 
     public static void main(String args[]) {
