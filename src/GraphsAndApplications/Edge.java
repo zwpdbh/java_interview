@@ -1,4 +1,4 @@
-package Graph;
+package GraphsAndApplications;
 
 public class Edge {
     int u;

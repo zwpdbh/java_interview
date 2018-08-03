@@ -1,4 +1,4 @@
-package GUISwingDemos.paint;
+package LearningSwing.paint;
 
 import javax.swing.*;
 import java.awt.*;

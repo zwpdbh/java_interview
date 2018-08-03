@@ -1,5 +1,19 @@
 package Common;
 
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.WritableImage;
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfByte;
+import org.opencv.imgcodecs.Imgcodecs;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -39,4 +53,23 @@ public class MyLib {
         Random r = new Random();
         return r.nextInt((max - min) + 1) + min;
     }
+
+    /**helper method which convert a Mat from OpenCV into WritableImage which
+     * could be used to display in JavaFX*/
+    public static WritableImage fromMatToWritableImage(Mat imgMat) throws IOException {
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+
+        MatOfByte matOfByte = new MatOfByte();
+        Imgcodecs.imencode(".jpg", imgMat, matOfByte);
+
+        // Storing the encoded mat in a byte array
+        byte byteArray[] = matOfByte.toArray();
+
+        // Displaying the image
+        InputStream inputStream = new ByteArrayInputStream(byteArray);
+        BufferedImage bufferedImage = ImageIO.read(inputStream);
+
+        return SwingFXUtils.toFXImage(bufferedImage, null);
+    }
+
 }

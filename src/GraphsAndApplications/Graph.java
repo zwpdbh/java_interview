@@ -1,4 +1,4 @@
-package Graph;
+package GraphsAndApplications;
 
 import java.util.List;
 
@@ -25,10 +25,10 @@ public interface Graph<V> {
     public void clear();
 
     /**Add a vertex to the graph*/
-    public void addVertex(V vertex);
+    public boolean addVertex(V vertex);
 
     /**Add an edge to the graph*/
-    public void addEdge(int u, int v);
+    public boolean addEdge(int u, int v);
 
     /**Obtain a depth-first search tree starting from v */
     public AbstractGraph<V>.Tree dfs(int v);

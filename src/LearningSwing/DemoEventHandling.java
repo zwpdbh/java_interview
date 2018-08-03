@@ -1,4 +1,4 @@
-package GUISwingDemos;
+package LearningSwing;
 
 import java.awt.*;
 import java.awt.event.*;

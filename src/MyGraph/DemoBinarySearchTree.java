@@ -1,7 +1,4 @@
-package Graph;
-
-import java.util.ArrayList;
-import java.util.Collections;
+package MyGraph;
 
 import static java.lang.Thread.sleep;
 

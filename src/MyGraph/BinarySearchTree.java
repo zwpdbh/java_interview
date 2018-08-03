@@ -1,6 +1,5 @@
-package Graph;
+package MyGraph;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -170,7 +169,7 @@ public class BinarySearchTree<T extends Comparable<T>> {
 
     public void show() {
         // the path is relative to the root of the project.
-        Path dotFilePath = Paths.get("src/Graph/tree.dot");
+        Path dotFilePath = Paths.get("src/MyGraph/tree.dot");
         try {
             Files.write(dotFilePath, this.treeToDot().toString().getBytes());
         } catch (IOException e) {
