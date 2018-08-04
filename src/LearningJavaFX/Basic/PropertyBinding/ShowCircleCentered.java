@@ -1,4 +1,4 @@
-package LearningJavaFX.PropertyBinding;
+package LearningJavaFX.Basic.PropertyBinding;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

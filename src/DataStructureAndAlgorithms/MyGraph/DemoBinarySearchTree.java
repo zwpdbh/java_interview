@@ -1,4 +1,4 @@
-package MyGraph;
+package DataStructureAndAlgorithms.MyGraph;
 
 import static java.lang.Thread.sleep;
 

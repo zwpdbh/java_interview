@@ -1,4 +1,4 @@
-package SortingsAndOrderStatistics;
+package DataStructureAndAlgorithms.SortingsAndOrderStatistics;
 
 public class MergeSort {
     private static Integer[] aux;

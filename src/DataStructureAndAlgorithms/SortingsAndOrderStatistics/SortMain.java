@@ -1,6 +1,6 @@
-package SortingsAndOrderStatistics;
+package DataStructureAndAlgorithms.SortingsAndOrderStatistics;
 
-import SortingsAndOrderStatistics.MediansAndOrderStatistics.RandomizedSelect;
+import DataStructureAndAlgorithms.SortingsAndOrderStatistics.MediansAndOrderStatistics.RandomizedSelect;
 
 import java.util.ArrayList;
 import java.util.Collections;

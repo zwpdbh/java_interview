@@ -1,4 +1,4 @@
-package SortingsAndOrderStatistics;
+package DataStructureAndAlgorithms.SortingsAndOrderStatistics;
 
 public class Insertion {
     public static void sort(Integer[] A) {

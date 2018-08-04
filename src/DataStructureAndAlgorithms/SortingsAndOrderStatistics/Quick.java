@@ -1,4 +1,4 @@
-package SortingsAndOrderStatistics;
+package DataStructureAndAlgorithms.SortingsAndOrderStatistics;
 
 import static Common.MyLib.exch;
 import static Common.MyLib.randomIntBetween;

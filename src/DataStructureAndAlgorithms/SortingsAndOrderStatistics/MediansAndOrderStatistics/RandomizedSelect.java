@@ -1,6 +1,6 @@
-package SortingsAndOrderStatistics.MediansAndOrderStatistics;
+package DataStructureAndAlgorithms.SortingsAndOrderStatistics.MediansAndOrderStatistics;
 
-import static SortingsAndOrderStatistics.Quick.randomizedPartiion;
+import static DataStructureAndAlgorithms.SortingsAndOrderStatistics.Quick.randomizedPartiion;
 
 public class RandomizedSelect {
     /**returns the ith smallest element of the array A[p..r]

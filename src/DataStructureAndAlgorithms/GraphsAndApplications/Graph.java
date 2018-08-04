@@ -1,4 +1,4 @@
-package GraphsAndApplications;
+package DataStructureAndAlgorithms.GraphsAndApplications;
 
 import java.util.List;
 
