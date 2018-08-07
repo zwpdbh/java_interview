@@ -6,6 +6,9 @@ public interface Graph<V> {
     /**Return the number of vertices in the graph*/
     public int getSize();
 
+    /** Return the object for the specified vertex index */
+    public V getVertex(int index);
+
     /**Return the vertices in the graph*/
     public List<V> getVertices();
 
@@ -34,5 +37,5 @@ public interface Graph<V> {
     public AbstractGraph<V>.Tree dfs(int v);
 
     /**Obtain a breadth-first search tree starting from v*/
-    public AbstractGraph<V>.Tree bsf(int v);
+    public AbstractGraph<V>.Tree bfs(int v);
 }
