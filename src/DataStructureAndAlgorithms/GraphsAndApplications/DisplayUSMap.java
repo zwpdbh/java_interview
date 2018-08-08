@@ -46,7 +46,7 @@ public class DisplayUSMap extends Application {
         primaryStage.show();
     }
 
-    static class City implements Displayable {
+    private class City implements Displayable {
         private int x, y;
         private String name;
 
