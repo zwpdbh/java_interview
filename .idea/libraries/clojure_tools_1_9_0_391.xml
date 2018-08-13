@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="clojure-tools-1.9.0.391">
+    <ANNOTATIONS>
+      <root url="jar:///usr/local/Cellar/clojure/1.9.0.391/libexec/clojure-tools-1.9.0.391.jar!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="jar:///usr/local/Cellar/clojure/1.9.0.391/libexec/clojure-tools-1.9.0.391.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -6,29 +6,26 @@ public class DemoBinarySearchTree {
     public static void main(String[] args) {
 
 
-//        BinarySearchTree<Integer> bst = new BinarySearchTree<>();
-//        bst.add(2);
-//        bst.add(1);
-//        bst.add(8);
-//        bst.add(4);
-//        bst.add(9);
-//        bst.add(3);
-//        bst.add(6);
-//        bst.add(5);
-//        bst.add(7);
-//
-//        bst.show();
-//
-//        try {
-//            sleep(10000);
-//            if (bst.delete(2)) {
-//                bst.show();
-//            }
-//            bst.delete(2);
-//            bst.show();
-//        } catch (Exception e) {
-//            System.out.println(e.toString());
-//        }
+        BinarySearchTree<Integer, Integer> bst = new BinarySearchTree<>();
+        bst.put(2, 10);
+        bst.put(1, 10);
+        bst.put(8, 10);
+        bst.put(4, 10);
+        bst.put(9, 10);
+        bst.put(3, 10);
+        bst.put(6, 10);
+        bst.put(5, 10);
+        bst.put(7, 10);
+
+        bst.show();
+
+        try {
+            sleep(10000);
+            bst.delete(2);
+            bst.show();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
 
     }
 }

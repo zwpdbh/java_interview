@@ -49,6 +49,8 @@ public class ThreadCooperation {
         public void withdraw(int amount) {
             lock.lock();
             try {
+                /**The deposit task will notify the withdraw task whenever the balance changes.
+                 * So, (balance < amount) may still be true when the withdraw task is awakened.*/
                 while (balance < amount) {
                     System.out.println("\t\t\tWait for a deposit");
                     newDeposite.await();
@@ -63,7 +65,7 @@ public class ThreadCooperation {
         }
 
         public void deposite(int amount) {
-            lock.lock();;
+            lock.lock();
             try {
                 balance += amount;
                 System.out.println("Deposite " + amount + "\t\t\t\t\t\t\t" + getBalance());

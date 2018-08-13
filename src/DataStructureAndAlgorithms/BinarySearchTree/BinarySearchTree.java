@@ -1,260 +1,11 @@
-//
-//import java.io.IOException;
-//import java.nio.file.Files;
-//import java.nio.file.Path;
-//import java.nio.file.Paths;
-//import java.util.ArrayList;
-//import java.util.Map;
-//
-//public class BinarySearchTree<T extends Comparable<T>> {
-//    /**
-//     * basically tree holds a pointer to node which is a recursive data structure
-//     * think of "tree.root" is like "tree->"
-//     */
-//    private Node<T> root;
-//
-//    private class Node<T extends Comparable<T>> {
-//        private T key;
-//        private
-//        private Node<T> left;
-//        private Node<T> right;
-//
-//        private Node(T key) {
-//            this.key = key;
-//
-//            left = null;
-//            right = null;
-//        }
-//
-//        @Override
-//        public String toString() {
-//            return "Node{" +
-//                    "key=" + key +
-//                    '}';
-//        }
-//
-//        public T getKey() {
-//            return key;
-//        }
-//
-//        public Node<T> getLeft() {
-//            return left;
-//        }
-//
-//        public Node<T> getRight() {
-//            return right;
-//        }
-//    }
-//
-//
-//    public BinarySearchTree() {
-//        this.root = null;
-//    }
-//
-//    public void add(T key) {
-//        if (root == null) {
-//            root = new Node<>(key);
-//        } else {
-//            Node<T> current, parent;
-//            current = parent = root;
-//            while (current != null) {
-//                if (current.key.compareTo(key) > 0) {
-//                    parent = current;
-//                    current = current.left;
-//                } else if (current.key.compareTo(key) < 0) {
-//                    parent = current;
-//                    current = current.right;
-//                }
-//            }
-//
-//            if (parent.key.compareTo(key) > 0) {
-//                parent.left = new Node<>(key);
-//            } else {
-//                parent.right = new Node<>(key);
-//            }
-//        }
-//    }
-//
-//    public int size() {
-//        return size(root);
-//    }
-//
-//    private int size(Node x) {
-//        if (x == null) {
-//            return 0;
-//        } else {
-//            return 1 + size(x) + size(x.getLeft()) + size(x.getRight());
-//        }
-//    }
-//
-//
-//    public Node search(T target) {
-//        return searchAux(root, target);
-//    }
-//
-//    private Node<T> searchAux(Node<T> node, T target) {
-//        if (node == null) {
-//            return null;
-//        } else if (node.key.compareTo(target) == 0) {
-//            return node;
-//        } else if (node.key.compareTo(target) > 0) {
-//            return searchAux(node.left, target);
-//        } else {
-//            return searchAux(node.right, target);
-//        }
-//    }
-//
-//    /**First, like search, find the node contains the target
-//     * Then, there are 3 cases to consider:
-//     * 1) the node is a leaf
-//     * 2) the node has one child(maybe left or right), "snip" the node out of this sequence
-//     *    by connecting its parent directly to its child.
-//     * 3) the node has two children
-//     * Generally, we need to remember the parent of the node to be delete so we could modify its child field*/
-//    public boolean delete(T target) {
-//        Node<T> parent = root;
-//        Node<T> current = root;
-//        boolean isLeftChild = true;
-//
-//        while (current.key != target) {
-//            parent = current;
-//            if (target.compareTo(current.key) < 0) {
-//                isLeftChild = true;
-//                current = current.left;
-//            } else {
-//                isLeftChild = false;
-//                current = current.right;
-//            }
-//            if (current == null) {
-//                return false;
-//            }
-//        }
-//
-//        // found node to delete
-//        // case 1: if no children, simply delete it
-//        if (current.left == null && current.right == null) {
-//            if (current == root) {
-//                root = null;
-//            } else if (isLeftChild) {
-//                parent.left = null;     // disconnect from parent
-//            } else {
-//                parent.right = null;
-//            }
-//        } else if (current.right == null) {
-//            // case 2.1: only has left child
-//            if (current == root) {
-//                root = current.left;
-//            } else if (isLeftChild) {
-//                parent.left = current.left;
-//            } else {
-//                parent.right = current.left;
-//            }
-//        } else if (current.left == null) {
-//            // case 2.2: only has right child
-//            if (current == root) {
-//                root = current.right;
-//            } else if (isLeftChild) {
-//                parent.left = current.right;
-//            } else {
-//                parent.right = current.right;
-//            }
-//        } else {
-//            // case 3: The node to be deleted has two children
-//
-//        }
-//
-//        return true;
-//    }
-//
-//    private Node<T> getSuccessor(Node<T> delNode) {
-//        Node<T> successorParent = delNode;
-//        Node<T> successor = delNode;
-//        Node<T> current = delNode.right;
-//
-//        while (current != null) {
-//            successorParent = successor;
-//            successor = current;
-//            current = current.left;
-//        }
-//
-//        // if successor not right child, make connections
-//        if (successor != delNode.right) {
-//            successorParent.left = successor.right;
-//            successor.right = delNode.right;
-//        }
-//    }
-//
-//
-//
-//    public StringBuilder treeToDot() {
-//        StringBuilder sb = new StringBuilder();
-//        // use digraph for graph with direction.
-//        sb.append("digraph ");
-//        sb.append("binary_search_tree {\n");
-//        sb.append("node [shape = Mrecord, penwidth = 2];\n");
-//        if (this.root != null) {
-//            treeOutputDotAux(root, sb);
-//        }
-//        sb.append("}\n");
-//        return sb;
-//    }
-//
-//    // inorder traversal
-//    private void treeOutputDotAux(Node<T> node, StringBuilder sb) {
-//        if (node.key != null) {
-//            sb.append(String.format("\"%s\"[label=\"{<f0>%s|{<f1>|<f2>}}\"];\n", node.key, node.key));
-//        }
-//        if (node.left != null) {
-//            treeOutputDotAux(node.left, sb);
-//            sb.append(String.format("\"%s\":f1 -> \"%s\":f0;\n", node.key, node.left.key));
-//
-//        }
-//        if (node.right != null) {
-//            treeOutputDotAux(node.right, sb);
-//            sb.append(String.format("\"%s\":f2 -> \"%s\":f0;\n", node.key, node.right.key));
-//        }
-//    }
-//
-//
-//    public void show() {
-//        // the path is relative to the root of the project.
-//        Path dotFilePath = Paths.get("/Users/zw/code/Java_Projects/Java_Interview/src/DataStructureAndAlgorithms/BinarySearchTree/tree.dot");
-//        try {
-//            Files.write(dotFilePath, this.treeToDot().toString().getBytes());
-//        } catch (IOException e) {
-//            System.out.println(e.toString());
-//        }
-//
-//
-//        try {
-//            ArrayList<String> cmd = new ArrayList<>();
-//            cmd.add("dot");
-//            cmd.add("-Tpng");
-//            cmd.add(dotFilePath.toAbsolutePath().toString());
-//            cmd.add("-o");
-//            cmd.add(dotFilePath.getParent().toAbsolutePath().toString() + "/binary_search_tree.png");
-//
-//            ProcessBuilder generateGraph = new ProcessBuilder(cmd);
-//            Process process = generateGraph.start();
-//
-//            int errCode = process.waitFor();
-//            System.out.println("Generate graph " + (errCode == 0 ? "Succeed" : "Failed"));
-//
-//        } catch (Exception e) {
-//            System.out.println(e.toString());
-//        }
-//
-//    }
-//
-//    private void getCurrentEnv(Map<String, String> env) {
-//        for (String key : env.keySet()) {
-//            System.out.println(key + " : " + env.get(key));
-//        }
-//    }
-//
-//}
-
 package DataStructureAndAlgorithms.BinarySearchTree;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class BinarySearchTree<Key extends Comparable<Key>, Value> {
     private class Node {
@@ -400,7 +151,8 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
     }
 
     /**we go left until finding a Node that has a null left link and then
-     * replace "the link to that node" by its right link*/
+     * replace "the link to that node" by its right link
+     * This method makes sure it always applies on one of the simple situations*/
     private Node deleteMin(Node x) {
         if (x.left == null) {
             return x.right;
@@ -411,7 +163,7 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         return x;
     }
 
-    private void delete(Key key) {
+    public void delete(Key key) {
         root = delete(root, key);
     }
 
@@ -446,4 +198,71 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
 
         return x;
     }
+
+    public StringBuilder treeToDot() {
+        StringBuilder sb = new StringBuilder();
+        // use digraph for graph with direction.
+        sb.append("digraph ");
+        sb.append("binary_search_tree {\n");
+        sb.append("node [shape = Mrecord, penwidth = 2];\n");
+        if (this.root != null) {
+            treeOutputDotAux(root, sb);
+        }
+        sb.append("}\n");
+        return sb;
+    }
+
+    // inorder traversal
+    private void treeOutputDotAux(Node node, StringBuilder sb) {
+        if (node.key != null) {
+            sb.append(String.format("\"%s\"[label=\"{<f0>%s|{<f1>|<f2>}}\"];\n", node.key, node.key));
+        }
+        if (node.left != null) {
+            treeOutputDotAux(node.left, sb);
+            sb.append(String.format("\"%s\":f1 -> \"%s\":f0;\n", node.key, node.left.key));
+
+        }
+        if (node.right != null) {
+            treeOutputDotAux(node.right, sb);
+            sb.append(String.format("\"%s\":f2 -> \"%s\":f0;\n", node.key, node.right.key));
+        }
+    }
+
+
+    public void show() {
+        // the path is relative to the root of the project.
+        Path dotFilePath = Paths.get("/Users/zw/code/Java_Projects/Java_Interview/src/DataStructureAndAlgorithms/BinarySearchTree/tree.dot");
+        try {
+            Files.write(dotFilePath, this.treeToDot().toString().getBytes());
+        } catch (IOException e) {
+            System.out.println(e.toString());
+        }
+
+
+        try {
+            ArrayList<String> cmd = new ArrayList<>();
+            cmd.add("dot");
+            cmd.add("-Tpng");
+            cmd.add(dotFilePath.toAbsolutePath().toString());
+            cmd.add("-o");
+            cmd.add(dotFilePath.getParent().toAbsolutePath().toString() + "/binary_search_tree.png");
+
+            ProcessBuilder generateGraph = new ProcessBuilder(cmd);
+            Process process = generateGraph.start();
+
+            int errCode = process.waitFor();
+            System.out.println("Generate graph " + (errCode == 0 ? "Succeed" : "Failed"));
+
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
+    }
+
+    private void getCurrentEnv(Map<String, String> env) {
+        for (String key : env.keySet()) {
+            System.out.println(key + " : " + env.get(key));
+        }
+    }
+
 }
