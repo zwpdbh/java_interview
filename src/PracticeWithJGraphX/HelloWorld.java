@@ -1,4 +1,4 @@
-package LeaningJGraphX;
+package PracticeWithJGraphX;
 
 import javax.swing.*;
 import com.mxgraph.swing.mxGraphComponent;
