@@ -30,11 +30,13 @@ public class MultiThreadServer extends Application {
 
         new Thread(() -> {
             try {
+
                 Platform.runLater(() -> {
                     textArea.appendText("MultipleThreadServer start at " + new Date() + '\n');
                 });
 
                 ServerSocket serverSocket = new ServerSocket(8000);
+
                 while (true) {
                     Socket socket = serverSocket.accept();
                     clientNo++;

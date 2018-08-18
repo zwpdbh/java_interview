@@ -49,6 +49,7 @@ public class AnonymousHandlerAndLambdaDemo extends Application {
             System.out.println("Process Print");
         });
 
+
         Scene scene = new Scene(hBox, 400, 50);
         primaryStage.setScene(scene);
         primaryStage.show();
