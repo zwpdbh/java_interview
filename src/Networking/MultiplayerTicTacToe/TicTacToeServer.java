@@ -14,7 +14,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
 
-
+/**A server enables users to play on different machines from anywhere on the internet.
+ * The server creates a server socket and accepts connections from every two players to form a session.
+ * Each session is a thread that communicates with the two players and determines the status of the game.*/
 public class TicTacToeServer extends Application implements TicTacToeConstants {
 
     private int sessionNo = 1;
@@ -27,6 +29,8 @@ public class TicTacToeServer extends Application implements TicTacToeConstants {
         primaryStage.setScene(scene);
         primaryStage.show();
 
+        /**The server creates a server socket and accepts connection from
+         * every two players to form a session*/
         new Thread(()->{
             try {
                 // bind server socket on port 8000;
@@ -68,7 +72,7 @@ public class TicTacToeServer extends Application implements TicTacToeConstants {
                         taLog.appendText(new Date() + ": Start a thread for session " + sessionNo++ + "\n");
                     });
 
-                    // Launch a new thread for this session of two players
+                    /**Each session is a thread that communicates with two players and determines the status of the game*/
                     new Thread(new HandleASession(player1, player2)).start();
                 }
             } catch (IOException ex) {
